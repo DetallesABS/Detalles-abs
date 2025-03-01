@@ -112,6 +112,14 @@ def registrar_pedido():
     conn.close()
     return redirect(url_for('pedidos'))
 
+import os
+
 if __name__ == '__main__':
-    init_db()  # Asegurar que la base de datos se crea antes de correr la app
+    # Si el archivo de la base de datos existe, lo eliminamos
+    if os.path.exists("floristeria.db"):
+        os.remove("floristeria.db")
+
+    init_db()  # Volver a crear la base de datos y las tablas
+    print("Base de datos creada nuevamente en Render.")
     app.run(debug=True)
+

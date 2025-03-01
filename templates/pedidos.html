@@ -8,6 +8,7 @@
 <body>
     <h1>Pedidos</h1>
     <a href="{{ url_for('index') }}">Inicio</a>
+
     <table border="1">
         <tr>
             <th>ID</th>
@@ -18,20 +19,36 @@
         </tr>
         {% for pedido in pedidos %}
         <tr>
+            {% if pedido is mapping %} 
+            <!-- Si los datos son diccionarios (usando sqlite3.Row) -->
+            <td>{{ pedido["id"] }}</td>
+            <td>{{ pedido["cliente"] }}</td>
+            <td>{{ pedido["nombre"] }}</td>
+            <td>{{ pedido["cantidad"] }}</td>
+            <td>{{ pedido["total"] }}</td>
+            {% else %}
+            <!-- Si los datos son listas de tuplas -->
             <td>{{ pedido[0] }}</td>
             <td>{{ pedido[1] }}</td>
             <td>{{ pedido[2] }}</td>
             <td>{{ pedido[3] }}</td>
             <td>{{ pedido[4] }}</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
 
     <h2>Registrar Pedido</h2>
     <form action="{{ url_for('registrar_pedido') }}" method="post">
-        Cliente: <input type="text" name="cliente" required>
-        ID Flor: <input type="number" name="flor_id" required>
-        Cantidad: <input type="number" name="cantidad" required>
+        <label for="cliente">Cliente:</label>
+        <input type="text" id="cliente" name="cliente" required>
+
+        <label for="flor_id">ID Flor:</label>
+        <input type="number" id="flor_id" name="flor_id" required>
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" required>
+
         <button type="submit">Registrar</button>
     </form>
 </body>
